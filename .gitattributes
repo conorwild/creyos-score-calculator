@@ -1,7 +1,6 @@
 * annex.backend=MD5E
-**/.git* annex.largefiles=nothing*
+**/.git* annex.largefiles=nothing
 **/*.png annex.largefiles=nothing
-**/*.*.joblib annex.largefiles=nothing
-composite_scores.pretrained.joblib annex.largefiles=nothing
+**/*.joblib annex.largefiles=nothing
 images/*.* annex.largefiles=nothing
 * annex.largefiles=((mimeencoding=binary)and(largerthan=0))
