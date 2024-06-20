@@ -10,11 +10,15 @@ setup(
     extras_require={
         "dev": [
             "datalad",
-            "creyon @ git+https://bitbucket.org/cambridgebrainsciences/creyon.git@main",  # noqa: E501
+            "creyon@git+https://bitbucket.org/cambridgebrainsciences/creyon.git@main",  # noqa: E501,
+            "ipykernel",
+            "matplotlib",
+            "plotly",
         ]
     },
     install_requires=[
-        "scikit-learn~=1.2.0",
+        "scikit-learn~=1.5.0",
+        "factor-analyzer",
         "pandas~=2.2.0",
         "scipy~=1.10.0",
         "numpy~=1.24.0",
