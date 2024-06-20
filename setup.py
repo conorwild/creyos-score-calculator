@@ -27,7 +27,5 @@ setup(
         "numpy~=1.24.0",
         "statsmodels~=0.13.0",
         "joblib~=1.2.0",
-        "jsonschema==3.2.0",
-        "pandera~=0.18.0",
     ],
 )

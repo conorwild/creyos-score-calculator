@@ -4,7 +4,7 @@
 
 # Installation
 ### For general use
-`pip3 install
+`pip3 install git+ssh://git@owenlab.ssc.uwo.ca:2121/conorwild/SCI-133-composite-score-calculator.git`
 
 # Usage
 ```

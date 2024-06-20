@@ -167,7 +167,7 @@ comp_score_calc.domains.loadings
 
 # %%
 comp_score_calc.domains.names = domains
-comp_score_calc.transform(Zorig[af_])
+comp_score_calc.transform(Zorig[df_ + tf_])
 # %%
 comp_score_calc.save_pretrained()
 
