@@ -7,6 +7,9 @@ setup(
     author_email="conor.wild@creyos.com",
     description="Composite Score Calculator Based on Wild et al. 2022 (COVID Cognition)",
     packages=find_packages(),
+    package_data={
+        "composite_scores": ["*.joblib"],
+    },
     extras_require={
         "dev": [
             "datalad",

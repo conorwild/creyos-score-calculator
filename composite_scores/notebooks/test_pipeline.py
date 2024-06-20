@@ -148,7 +148,7 @@ pca_spd_norm = FactorAnalyzer(method="principal", n_factors=1, rotation=None).fi
 if pca_spd_norm.loadings_.mean() > 0:
     pca_spd_norm.loadings_ *= -1
 
-Znorm["processing_speed"] = pca_spd_norm.transform(Znorm[tf_])
+Znorm["processing_speed_01"] = pca_spd_norm.transform(Znorm[tf_])
 
 # Overall measure across CBS battery: the average of all 12 task z-scores,
 # then rescale to have M = 0.0, SD = 1.0
@@ -156,19 +156,21 @@ Znorm["overall"] = Znorm[df_].mean(axis=1)
 overall_tfm = StandardScaler(with_mean=True, with_std=True).fit(Znorm[["overall"]])
 Znorm["overall"] = overall_tfm.transform(Znorm[["overall"]])
 
-comp_scores = cbs.DOMAIN_NAMES + ["processing_speed", "overall"]
+comp_scores = cbs.DOMAIN_NAMES + ["processing_speed_01", "overall"]
 test_scores = df_
 
 Yvar = test_scores + comp_scores
 Znorm[comp_scores]
 # %%
-comp_score_calc = CompositeScores(overall_features=df_).fit(Zorig[df_ + tf_])
+comp_score_calc = CompositeScores.load_pretrained()
 comp_score_calc.domains.loadings
 
 # %%
-comp_score_calc.domains.names = domains
-comp_score_calc.transform(Zorig[af_])
-# %%
-comp_score_calc.save_pretrained()
+from pandas.testing import assert_frame_equal
+
+assert_frame_equal(
+    Znorm[comp_scores], comp_score_calc.transform(Zorig[df_ + tf_])[comp_scores]
+)
+
 
 # %%

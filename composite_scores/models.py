@@ -1,7 +1,8 @@
+from joblib import dump, load
+import pathlib
 from typing import Any, get_args, List, Literal, Optional, Union
 
 from factor_analyzer import FactorAnalyzer
-import numpy as np
 from numpy.typing import ArrayLike
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -250,3 +251,22 @@ class CompositeScores(Pipeline):
 
         super().__init__([("preproc", self.preproc), ("scores", self.scores)])
         self.set_output(transform="pandas")
+
+    @staticmethod
+    def _directory() -> pathlib.Path:
+        return pathlib.Path(__file__).parent.resolve()
+
+    @staticmethod
+    def _default_filename() -> str:
+        return "composite_scores.pretrained.joblib"
+
+    @classmethod
+    def load_pretrained(cls, filename: Optional[str] = None):
+        if filename is None:
+            filename = cls._default_filename()
+        return load(cls._directory() / filename)
+
+    def save_pretrained(self, filename: Optional[str] = None):
+        if filename is None:
+            filename = self._default_filename()
+        dump(self, self._directory() / filename)
