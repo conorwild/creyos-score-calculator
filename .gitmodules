@@ -1,0 +1,5 @@
+[submodule "composite_scores/data/covidcog"]
+	path = composite_scores/data/covidcog
+	url = ssh://git@owenlab.ssc.uwo.ca:2121/COVID-19-cognition/2022-Wild-etal-COVID-cognition.git
+	datalad-id = 0b390d80-b578-4e18-8558-5bc0e03ec656
+	datalad-url = ssh://git@owenlab.ssc.uwo.ca:2121/COVID-19-cognition/2022-Wild-etal-COVID-cognition.git
