@@ -7,6 +7,8 @@ from .models import (
     OverallScore,
 )
 
+from .data_preprocessing import load_CC_norms
+
 __all__ = [
     "ColumnSelector",
     "CompositeScores",
@@ -14,4 +16,5 @@ __all__ = [
     "MyFactorAnalyzer",
     "ProcessingSpeed",
     "OverallScore",
+    "load_CC_norms",
 ]

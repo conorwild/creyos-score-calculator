@@ -69,13 +69,15 @@ class MyFactorAnalyzer(FactorAnalyzer):
         if isinstance(X, pd.DataFrame) & (self.output == "pandas"):
             ix = X.index
             cols = pd.Index(self.get_feature_names_out())
-            return pd.DataFrame(super().transform(X), index=ix, columns=cols)
+            return pd.DataFrame(
+                super().transform(X), index=ix, columns=cols  # pyright: ignore
+            )
         else:
             return super().transform(X)
 
 
 class ColumnSelector(ColumnTransformer):
-    def __init__(self, columns: List[Union[DomainFeatures, TimingFeatures]]):
+    def __init__(self, columns: List[Literal[DomainFeatures, TimingFeatures]]):
         self.columns = columns
         super().__init__(
             [("selector", "passthrough", self.columns)],
@@ -83,7 +85,7 @@ class ColumnSelector(ColumnTransformer):
             verbose_feature_names_out=False,
         )
 
-    def set_params(self, columns: List[str], **kwargs: Any):
+    def set_params(self, columns: List[str], **kwargs: Any):  # pyright: ignore
         # Assumes that it is a one step transformer with only passthrough.
         passthrough = self.transformers[0]
         self.transformers[0] = (*passthrough[0:2], columns)
@@ -121,7 +123,10 @@ class DomainScores(Pipeline):
         self._name_prefix = "domain"
         super().__init__(
             [
-                ("selector", ColumnSelector(self.required_features())),
+                (
+                    "selector",
+                    ColumnSelector(self.required_features()),  # pyright: ignore
+                ),  # pyright: ignore
                 (
                     "PCA",
                     MyFactorAnalyzer(
@@ -135,8 +140,8 @@ class DomainScores(Pipeline):
         )
 
 
-def calculate_average(X: pd.DataFrame) -> pd.Series:
-    return X.mean(axis=1)
+def calculate_average(X: pd.DataFrame) -> pd.Series:  # pyright: ignore
+    return X.mean(axis=1)  # pyright: ignore
 
 
 def overall_feature_name_out(
@@ -168,7 +173,7 @@ class OverallScore(Pipeline):
         self.name = "overall"
         super().__init__(
             [
-                ("selector", ColumnSelector(self.features)),
+                ("selector", ColumnSelector(self.features)),  # pyright: ignore
                 (
                     "average",
                     FunctionTransformer(
@@ -189,12 +194,25 @@ class ProcessingSpeed(Pipeline):
     def required_features() -> List[TimingFeatures]:
         return list(get_args(TimingFeatures))
 
+    @property
+    def pca(self) -> MyFactorAnalyzer:
+        return self.steps[-1][1]
+
+    @property
+    def loadings(self) -> pd.DataFrame:
+        return pd.DataFrame(
+            self.pca.loadings_, index=self.required_features(), columns=self.names
+        )
+
     def __init__(self, n_components: int = 1):
         self.n_components = n_components
         self._name_prefix = "processing_speed"
         super().__init__(
             [
-                ("selector", ColumnSelector(self.required_features())),
+                (
+                    "selector",
+                    ColumnSelector(self.required_features()),  # pyright: ignore
+                ),  # pyright: ignore
                 (
                     "PCA",
                     MyFactorAnalyzer(
@@ -207,8 +225,10 @@ class ProcessingSpeed(Pipeline):
             ]
         )
 
-    def fit(self, X: Union[pd.DataFrame, ArrayLike], y: Optional[ArrayLike] = None):
-        super().fit(X, y)
+    def fit(  # pyright: ignore
+        self, X: Union[pd.DataFrame, ArrayLike], y: Optional[ArrayLike] = None
+    ):
+        super().fit(X, y)  # pyright: ignore
         pca_model = self.steps[-1][1]
         for n in range(self.n_components):
             if pca_model.loadings_[:, n].mean() > 0.1:
@@ -246,7 +266,7 @@ class CompositeScores(Pipeline):
                 ("overall", OverallScore(features=overall_features)),
                 ("processing_speed", ProcessingSpeed()),
             ],
-            verbose_feature_names_out=False,
+            verbose_feature_names_out=False,  # pyright: ignore
         )
 
         super().__init__([("preproc", self.preproc), ("scores", self.scores)])
@@ -254,7 +274,7 @@ class CompositeScores(Pipeline):
 
     @staticmethod
     def _directory() -> pathlib.Path:
-        return pathlib.Path(__file__).parent.resolve()
+        return pathlib.Path(__file__).parent.resolve() / "models"
 
     @staticmethod
     def _default_filename() -> str:

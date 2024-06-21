@@ -1,0 +1,12 @@
+{
+
+    "exclude": [
+      "composite_scores/data/covidcog"
+    ],
+
+    "reportUnknownVariableType": false,
+    "reportMissingTypeStubs": false,
+    "reportUnknownMemberType": false,
+    "reportUnknownLambdaType": false,
+    "reportAttributeAccessIssue": false,
+}
