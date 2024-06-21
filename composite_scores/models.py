@@ -1,6 +1,6 @@
 from joblib import dump, load
 import pathlib
-from typing import Any, get_args, List, Literal, Optional, Union
+from typing import Any, get_args, List, Literal, Optional, Sequence, Union
 
 from factor_analyzer import FactorAnalyzer
 from numpy.typing import ArrayLike
@@ -77,7 +77,7 @@ class MyFactorAnalyzer(FactorAnalyzer):
 
 
 class ColumnSelector(ColumnTransformer):
-    def __init__(self, columns: List[Literal[DomainFeatures, TimingFeatures]]):
+    def __init__(self, columns: Sequence[Literal[DomainFeatures, TimingFeatures]]):
         self.columns = columns
         super().__init__(
             [("selector", "passthrough", self.columns)],
@@ -123,10 +123,7 @@ class DomainScores(Pipeline):
         self._name_prefix = "domain"
         super().__init__(
             [
-                (
-                    "selector",
-                    ColumnSelector(self.required_features()),  # pyright: ignore
-                ),  # pyright: ignore
+                ("selector", ColumnSelector(self.required_features())),
                 (
                     "PCA",
                     MyFactorAnalyzer(
@@ -173,7 +170,7 @@ class OverallScore(Pipeline):
         self.name = "overall"
         super().__init__(
             [
-                ("selector", ColumnSelector(self.features)),  # pyright: ignore
+                ("selector", ColumnSelector(self.features)),
                 (
                     "average",
                     FunctionTransformer(
@@ -209,10 +206,7 @@ class ProcessingSpeed(Pipeline):
         self._name_prefix = "processing_speed"
         super().__init__(
             [
-                (
-                    "selector",
-                    ColumnSelector(self.required_features()),  # pyright: ignore
-                ),  # pyright: ignore
+                ("selector", ColumnSelector(self.required_features())),
                 (
                     "PCA",
                     MyFactorAnalyzer(
