@@ -11,8 +11,8 @@ from composite_scores import (
     CompositeScores,
     DomainScores,
     ProcessingSpeed,
-    load_CC_norms,
 )
+from composite_scores.data import load_CC_norms
 
 # Display options for in this notebook
 pd.set_option("display.max_rows", 100)
