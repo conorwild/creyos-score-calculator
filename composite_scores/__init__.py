@@ -1,4 +1,4 @@
-from .models import (
+from .sklearn_ext import (
     ColumnSelector,
     CompositeScores,
     DomainScores,
