@@ -1,5 +1,4 @@
 [datalad "dataset"]
 	id = 5797a25b-7870-41ca-9724-817259534703
 [datalad "get"]
-	subdataset-source-candidate-000owenlabGIN = ssh://git@owenlab.ssc.uwo.ca:2121/COVID-19-cognition/2022-Wild-etal-COVID-cognition.git
-	subdataset-source-candidate-700osf = osf://c6d2u
+	subdataset-source-candidate-000osf = osf://c6d2u
