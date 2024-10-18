@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="composite_scores",
-    version="0.0.1",
+    version="0.0.2",
     author="Conor J. Wild",
     author_email="cwild@uwo.com",
     description="Composite Score Calculator Based on Wild et al. 2022 (COVID Cognition)",
