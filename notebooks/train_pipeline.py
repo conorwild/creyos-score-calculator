@@ -6,8 +6,8 @@ from composite_scores import (
     CompositeScores,
     DomainScores,
     ProcessingSpeed,
-    load_CC_norms,
 )
+from composite_scores.data import load_CC_norms
 
 pd.set_option("display.float_format", lambda x: f"{x:.4f}")  # pyright: ignore
 
